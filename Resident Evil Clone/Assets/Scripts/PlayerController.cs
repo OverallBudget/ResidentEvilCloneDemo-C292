@@ -16,7 +16,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform fpsCamera;
     [SerializeField] float verticalLookLimit;
     private float xRotation;
-    
+
+    [SerializeField] Transform firePoint;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +38,10 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            shoot(1);
+        }
     }
 
     private void Move()
@@ -85,6 +91,19 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
             doubleJump = true;
+        }
+    }
+
+    private void shoot(float damage)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
+        {
+            Debug.DrawRay(firePoint.position, firePoint.forward * hit.distance, Color.red, 2f);
+            if (hit.transform.CompareTag("Zombie"))
+            {
+                hit.transform.GetComponent<Zombie>().TakeDamage(damage);
+            }
         }
     }
 }
