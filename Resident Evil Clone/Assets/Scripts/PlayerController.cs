@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool doubleJump;
     private Rigidbody rb;
+    RaycastHit hit;
 
     [SerializeField] Transform fpsCamera;
     [SerializeField] float verticalLookLimit;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -38,10 +40,11 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            shoot(1);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    //Debug.Log("Shoot");
+        //    //shoot(1);
+        //}
     }
 
     private void Move()
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded == true)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.velocity = Vector3.up * jumpForce;
             isGrounded = false;
         }
         else
@@ -94,16 +97,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void shoot(float damage)
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
-        {
-            Debug.DrawRay(firePoint.position, firePoint.forward * hit.distance, Color.red, 2f);
-            if (hit.transform.CompareTag("Zombie"))
-            {
-                hit.transform.GetComponent<Zombie>().TakeDamage(damage);
-            }
-        }
-    }
+    //private void shoot(float damage)
+    //{
+        
+    //    if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
+    //    {
+    //        Debug.DrawRay(firePoint.position, firePoint.forward * hit.distance, Color.red, 2f);
+    //        if (hit.transform.CompareTag("Zombie"))
+    //        {
+    //            hit.transform.GetComponent<Zombie>().TakeDamage(damage);
+    //        }
+    //    }
+    //}
 }
