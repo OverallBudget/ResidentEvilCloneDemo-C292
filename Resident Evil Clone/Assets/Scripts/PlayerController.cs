@@ -12,13 +12,20 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool doubleJump;
     private Rigidbody rb;
-    RaycastHit hit;
 
     [SerializeField] Transform fpsCamera;
     [SerializeField] float verticalLookLimit;
     private float xRotation;
 
     [SerializeField] Transform firePoint;
+
+    private Magazine currentMag;
+
+    public Magazine CurrentMag { get => currentMag; set => currentMag = value; }
+
+    //private Magazine currentMag2;
+
+    //public Magazine CurrentMag2 { get { return currentMag; } set { currentMag = value; } }
 
 
 
@@ -45,6 +52,21 @@ public class PlayerController : MonoBehaviour
         //    //Debug.Log("Shoot");
         //    //shoot(1);
         //}
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            float distance = 100f;
+            Debug.DrawRay(fpsCamera.position, fpsCamera.forward * distance, Color.green, 2f);
+            if(Physics.Raycast(fpsCamera.position, fpsCamera.forward, out RaycastHit hit, distance))
+            {
+                if(hit.transform.TryGetComponent(out Magazine magazine))
+                {
+                    Debug.Log("Magazine");
+                    magazine.OnPickup(this);
+                    Debug.Log(currentMag);
+                }
+            }
+        }
     }
 
     private void Move()

@@ -35,5 +35,6 @@ public class Zombie : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Debug.Log("ow");
     }
 }

@@ -24,7 +24,7 @@ public class Pistol : Weapon
         {
             if (currentAmmo > 0)
             {
-                Debug.Log("Pistol Fired");
+                //Debug.Log("Pistol Fired");
                 currentAmmo--;
                 RaycastHit hit;
                 if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
@@ -35,6 +35,10 @@ public class Pistol : Weapon
                         hit.transform.GetComponent<Zombie>().TakeDamage(damage);
                     }
                 }
+                else
+                {
+                    Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
+                }
             }
             else
             {
@@ -44,13 +48,13 @@ public class Pistol : Weapon
                 }
                 else
                 {
-                    Debug.Log("Out of Ammo.");
+                    //Debug.Log("Out of Ammo.");
                 }
             }
         }
         else
         {
-            Debug.Log("Still Reloading...");
+            //Debug.Log("Still Reloading...");
         }
     }
 
