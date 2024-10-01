@@ -5,12 +5,10 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
+
     private void Start()
     {
         canFire = true; 
-        ammoCapacity = 10;
-        damage = 1;
-        reloadTime = 2;
     }
 
     protected override void Update()
@@ -20,12 +18,17 @@ public class Pistol : Weapon
 
     protected override void Fire()
     {
+        if (currentMag == null)
+        {
+            Debug.Log("No mag");
+            return;
+        }
         if (canFire)
         {
-            if (currentAmmo > 0)
+            if (currentMag.AmmoCount > 0)
             {
                 //Debug.Log("Pistol Fired");
-                currentAmmo--;
+                currentMag.AmmoCount--;
                 RaycastHit hit;
                 if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
                 {
@@ -42,32 +45,36 @@ public class Pistol : Weapon
             }
             else
             {
-                if (currentSpareAmmo > 0)
+                if (currentMag.CurrentAmmo > 0)
                 {
                     Reload();
                 }
                 else
                 {
-                    //Debug.Log("Out of Ammo.");
+                    Debug.Log("Out of Ammo.");
                 }
             }
         }
         else
         {
-            //Debug.Log("Still Reloading...");
+            Debug.Log("Still Reloading...");
         }
     }
 
     protected override void Reload()
     {
-        int ammoReload = ammoCapacity - currentAmmo;
+        int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
         if (ammoReload == 0)
         {
             Debug.Log("Pistol already full.");
         }
+        else if (currentMag.CurrentAmmo > 0)
+        {
+            Reload();
+        }
         else
         {
-            StartCoroutine(ReloadCoroutine());
+            Debug.Log("Out of Ammo.");
         }
     }
 
@@ -79,19 +86,8 @@ public class Pistol : Weapon
 
         canFire = true;
 
-        int ammoReload = ammoCapacity - currentAmmo;
-        
-        if (ammoReload > currentSpareAmmo)
-        {
-            Debug.Log("Reloaded " + currentSpareAmmo);
-            currentAmmo += currentSpareAmmo;
-            currentSpareAmmo = 0;
-        }
-        else
-        {
-            Debug.Log("Reloaded " + ammoReload);
-            currentAmmo = ammoCapacity;
-            currentSpareAmmo -= ammoReload;
-        }
+        int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
+
+        currentMag.Reload();
     }
 }

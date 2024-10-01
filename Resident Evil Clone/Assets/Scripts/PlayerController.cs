@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private float xRotation;
 
     [SerializeField] Transform firePoint;
+    [SerializeField] Transform dropPoint;
+    [SerializeField] Weapon weapon;
 
     private Magazine currentMag;
 
@@ -64,8 +66,14 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Magazine");
                     magazine.OnPickup(this);
                     Debug.Log(currentMag);
+                    weapon.currentMag = currentMag;
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            currentMag.OnDrop(dropPoint);
         }
     }
 

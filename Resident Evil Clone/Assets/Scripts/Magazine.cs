@@ -7,31 +7,49 @@ public class Magazine : MonoBehaviour, IPickUpable
     [SerializeField] private GameObject ammoPrefab;
     [SerializeField] private int ammoCount;
     [SerializeField] private int ammoCapacity;
+    [SerializeField] private int currentAmmo;
+    [SerializeField] private int reloadAmount;
     [SerializeField] private string ammoType;
 
     public int AmmoCount { get => ammoCount; set => ammoCount = value; }
     public int AmmoCapacity { get => ammoCapacity; set => ammoCapacity = value; }
+
+    public int CurrentAmmo { get => currentAmmo; set => currentAmmo = value; }
+    public int ReloadAmount { get => reloadAmount; set => reloadAmount = value; }
     public string AmmoType { get => ammoType; set => ammoType = value; }
 
-    public void OnDrop()
+
+    public void OnDrop(Transform position)
     {
-        GameObject mag = Instantiate(ammoPrefab, transform.position, transform.rotation);
+        gameObject.SetActive(true);
+        transform.position = position.position;
+        gameObject.transform.parent = null;
     }
     public void OnPickup(PlayerController player)
     {
         player.CurrentMag = this;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        gameObject.transform.parent = player.transform;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Reload()
     {
-        
-    }
+        if(ammoCapacity > 0)
+        {
+            int ammoReload = ammoCapacity - currentAmmo;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if (ammoReload > ammoCount)
+            {
+                Debug.Log("Reloaded " + ammoCount);
+                currentAmmo += ammoCount;
+                ammoCount = 0;
+            }
+            else
+            {
+                Debug.Log("Reloaded " + ammoReload);
+                currentAmmo = ammoCapacity;
+                ammoCount -= ammoReload;
+            }
+        }
     }
 }

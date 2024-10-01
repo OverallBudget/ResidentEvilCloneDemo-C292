@@ -5,9 +5,7 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
 
-    [SerializeField] protected int ammoCapacity;
-    [SerializeField] protected int currentAmmo;
-    [SerializeField] protected int currentSpareAmmo;
+    [SerializeField] public Magazine currentMag;
     [SerializeField] protected float fireRate;
     [SerializeField] protected float reloadTime;
     [SerializeField] protected bool canFire;
