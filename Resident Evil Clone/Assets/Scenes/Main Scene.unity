@@ -845,7 +845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &568346014
 Transform:
   m_ObjectHideFlags: 0
@@ -1126,10 +1126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoPrefab: {fileID: 908400440}
-  ammoCount: 10
-  ammoCapacity: 30
-  currentAmmo: 0
-  reloadAmount: 0
+  ammoCount: 100
+  ammoCapacity: 100
+  currentAmmo: 24
+  reloadAmount: 12
   ammoType: 
 --- !u!54 &908400446
 Rigidbody:

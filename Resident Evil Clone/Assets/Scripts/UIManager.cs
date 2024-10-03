@@ -19,6 +19,15 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        try
+        {
+            gun = GameObject.Find("Pistol").GetComponent<Pistol>();
+        }
+        catch
+        {
+            Debug.LogWarning("No gun found.");
+        }
     
     }
 
@@ -29,15 +38,15 @@ public class UIManager : MonoBehaviour
 
     public void updateAmmo()
     {
-        if(gun.currentMag == null)
+        if(gun.CurrentMag == null)
         {
             ammoCount.text = "0/0";
             ammoSpare.text = "0";
         }
         else
         {
-            ammoCount.text = "" + gun.currentMag.CurrentAmmo + "/" + gun.currentMag.AmmoCapacity;
-            ammoSpare.text = "" + gun.currentMag.AmmoCount;
+            ammoCount.text = "" + gun.CurrentMag.AmmoCount + "/" + gun.CurrentMag.AmmoCapacity;
+            ammoSpare.text = "" + gun.CurrentMag.CurrentAmmo;
         }
     }
 }

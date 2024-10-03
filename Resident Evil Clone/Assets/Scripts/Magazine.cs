@@ -36,19 +36,19 @@ public class Magazine : MonoBehaviour, IPickUpable
     {
         if(ammoCapacity > 0)
         {
-            int ammoReload = ammoCapacity - currentAmmo;
+            int ammoReload = ammoCapacity - AmmoCount;
 
-            if (ammoReload > ammoCount)
+            if (ammoReload > currentAmmo)
             {
-                Debug.Log("Reloaded " + ammoCount);
-                currentAmmo += ammoCount;
-                ammoCount = 0;
+                Debug.Log("Reloaded " + currentAmmo);
+                ammoCount += currentAmmo;
+                currentAmmo = 0;
             }
             else
             {
                 Debug.Log("Reloaded " + ammoReload);
-                currentAmmo = ammoCapacity;
-                ammoCount -= ammoReload;
+                ammoCount = ammoCapacity;
+                currentAmmo -= ammoReload;
             }
         }
     }

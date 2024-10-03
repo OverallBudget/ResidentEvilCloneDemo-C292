@@ -23,71 +23,72 @@ public class Pistol : Weapon
             Debug.Log("No mag");
             return;
         }
-        if (canFire)
+
+        if (canFire && currentMag.AmmoCount > 0)
         {
-            if (currentMag.AmmoCount > 0)
+            //Debug.Log("Pistol Fired");
+            currentMag.AmmoCount--;
+            RaycastHit hit;
+            float range = 100f;
+            Debug.DrawRay(firePoint.position, firePoint.forward * range, Color.red, 2f);
+
+            if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
             {
-                //Debug.Log("Pistol Fired");
-                currentMag.AmmoCount--;
-                RaycastHit hit;
-                if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, 100))
+                
+                if (hit.transform.CompareTag("Zombie"))
                 {
-                    Debug.DrawRay(firePoint.position, firePoint.forward * hit.distance, Color.red, 2f);
-                    if (hit.transform.CompareTag("Zombie"))
-                    {
-                        hit.transform.GetComponent<Zombie>().TakeDamage(damage);
-                    }
+                    hit.transform.GetComponent<Zombie>().TakeDamage(damage);
                 }
-                else
-                {
-                    Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
-                }
-            }
-            else
-            {
-                if (currentMag.CurrentAmmo > 0)
-                {
-                    Reload();
-                }
-                else
-                {
-                    Debug.Log("Out of Ammo.");
-                }
-            }
+            }   
         }
-        else
+        
+        if(currentMag.AmmoCapacity <= 0)
         {
-            Debug.Log("Still Reloading...");
+            Debug.Log("Current Mag is empty.");
+        }
+
+        if(currentMag.AmmoCount == 0 && canFire)
+        {
+            Debug.Log("Reloading...");
+            Reload();
+            Debug.Log("Out of Ammo.");
         }
     }
 
     protected override void Reload()
     {
-        int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
-        if (ammoReload == 0)
-        {
-            Debug.Log("Pistol already full.");
-        }
-        else if (currentMag.CurrentAmmo > 0)
-        {
-            Reload();
-        }
-        else
-        {
-            Debug.Log("Out of Ammo.");
-        }
+        //int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
+        //if (ammoReload == 0)
+        //{
+        //    Debug.Log("Pistol already full.");
+        //}
+        //else if (currentMag.CurrentAmmo > 0)
+        //{
+        //    Reload();
+        //}
+        //else
+        //{
+        //    Debug.Log("Out of Ammo.");
+        //} 
+        StartCoroutine(ReloadCoroutine()); // keep things simple I guess.
     }
 
     private IEnumerator ReloadCoroutine()
     {
+        if(currentMag.CurrentAmmo == 0)
+        {
+            Debug.Log("Out of Ammo.");
+            yield break;
+        }
+
         canFire = false;
         Debug.Log("Reloading...");
         yield return new WaitForSeconds(reloadTime);
 
         canFire = true;
-
-        int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
-
         currentMag.Reload();
+        Debug.Log("Pistol Reloaded");
+        //int ammoReload = currentMag.AmmoCapacity - currentMag.CurrentAmmo;
+
     }
 }

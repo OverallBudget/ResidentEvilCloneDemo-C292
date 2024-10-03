@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Magazine");
                     magazine.OnPickup(this);
                     Debug.Log(currentMag);
-                    weapon.currentMag = currentMag;
+                    weapon.CurrentMag = currentMag;
                 }
             }
         }
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             currentMag.OnDrop(dropPoint);
+            weapon.CurrentMag = null;
         }
     }
 

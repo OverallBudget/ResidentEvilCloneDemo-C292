@@ -5,13 +5,15 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
 
-    [SerializeField] public Magazine currentMag;
+    [SerializeField] protected Magazine currentMag;
     [SerializeField] protected float fireRate;
     [SerializeField] protected float reloadTime;
     [SerializeField] protected bool canFire;
 
     [SerializeField] protected Transform firePoint;
     [SerializeField] protected float damage;
+
+    public Magazine CurrentMag { get => currentMag; set => currentMag = value; }
     protected virtual void Update()
     {
         if (Input.GetButtonDown("Fire1"))
