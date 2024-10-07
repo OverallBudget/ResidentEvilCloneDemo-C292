@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
 
         try
         {
-            gun = GameObject.Find("Pistol").GetComponent<Pistol>();
+            gun = GameObject.Find("Deagle_CS2").GetComponent<Pistol>();
         }
         catch
         {
